@@ -217,9 +217,7 @@ __marimo__/
 # Streamlit
 .streamlit/secrets.toml
 
-# COMP9444 project data and generated training artifacts
-data/raw/*
-!data/raw/.gitkeep
+# COMP9444 project generated training artifacts
 outputs/checkpoints/*
 !outputs/checkpoints/.gitkeep
 outputs/logs/*
