@@ -216,3 +216,13 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# COMP9444 project data and generated training artifacts
+data/raw/*
+!data/raw/.gitkeep
+outputs/checkpoints/*
+!outputs/checkpoints/.gitkeep
+outputs/logs/*
+!outputs/logs/.gitkeep
+# macOS
+.DS_Store
