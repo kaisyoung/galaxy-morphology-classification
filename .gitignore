@@ -224,3 +224,7 @@ outputs/logs/*
 !outputs/logs/.gitkeep
 # macOS
 .DS_Store
+
+# Galaxy10 dataset file (2.5GB, downloaded by src/preprocessing/galaxy10_loader.py)
+data/*.h5
+data/*.h5.part
