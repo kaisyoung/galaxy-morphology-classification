@@ -51,23 +51,21 @@ accuracy at a fraction of the size.
 
 ### Per-class F1 (ImageNet basis)
 
-*SimpleCNN's per-class breakdown below is from the original zip (its
-classification report wasn't reprinted in the RTX 5080 rerun, only the
-summary acc/macroF1 above, which matched closely); VGG16 and DenseNet121
-columns are the actual RTX 5080 rerun numbers.*
+*All five columns below are RTX 5080 rerun numbers (SimpleCNN's full report
+came in slightly after the others but matches the original zip closely).*
 
 | Class                  | SimpleCNN | VGG16 | DenseNet121 | ResNet50 (ImageNet) | ConvNeXT-Nano (ImageNet) |
 |-------------------------|-----------|-------|-------------|------------------------|-----------------------------|
-| Disturbed               | 0.134     | 0.369 | 0.452       | 0.433                  | 0.490                       |
-| Merging                  | 0.169     | 0.866 | 0.882       | 0.837                  | 0.872                       |
+| Disturbed               | 0.150     | 0.369 | 0.452       | 0.433                  | 0.490                       |
+| Merging                  | 0.175     | 0.866 | 0.882       | 0.837                  | 0.872                       |
 | Round Smooth             | 0.541     | 0.910 | 0.915       | 0.891                  | 0.911                       |
-| In-between Smooth        | 0.451     | 0.911 | 0.906       | 0.904                  | 0.897                       |
+| In-between Smooth        | 0.446     | 0.911 | 0.906       | 0.904                  | 0.897                       |
 | Cigar-shaped Smooth      | 0.000     | 0.868 | 0.806       | 0.743                  | 0.747                       |
-| Barred Spiral            | 0.366     | 0.886 | 0.887       | 0.827                  | 0.861                       |
-| Unbarred Tight Spiral    | 0.412     | 0.741 | 0.731       | 0.711                  | 0.735                       |
-| Unbarred Loose Spiral    | 0.476     | 0.739 | 0.749       | 0.653                  | 0.717                       |
+| Barred Spiral            | 0.371     | 0.886 | 0.887       | 0.827                  | 0.861                       |
+| Unbarred Tight Spiral    | 0.417     | 0.741 | 0.731       | 0.711                  | 0.735                       |
+| Unbarred Loose Spiral    | 0.473     | 0.739 | 0.749       | 0.653                  | 0.717                       |
 | Edge-on w/o Bulge        | 0.568     | 0.931 | 0.877       | 0.898                  | 0.910                       |
-| Edge-on w/ Bulge         | 0.709     | 0.935 | 0.932       | 0.926                  | 0.934                       |
+| Edge-on w/ Bulge         | 0.704     | 0.935 | 0.932       | 0.926                  | 0.934                       |
 
 ---
 
@@ -116,6 +114,128 @@ which suffices for coarse whole-galaxy silhouette judgments, but Zoobot's
 galaxy-specific pretraining appears to better capture the finer structural
 cues (arm winding, bar structure) that distinguish morphologically similar
 classes.
+
+---
+
+## Appendix: Confusion matrices (raw counts, test set)
+
+Rows = true class, columns = predicted class, both in `CLASS_NAMES` order:
+`[Disturbed, Merging, Round Smooth, In-between Smooth, Cigar-shaped Smooth,
+Barred Spiral, Unbarred Tight Spiral, Unbarred Loose Spiral, Edge-on w/o
+Bulge, Edge-on w/ Bulge]` (indices 0-9). All seven from the RTX 5080 runs
+above.
+
+**SimpleCNN (from scratch)**
+```
+[[  9   2  34  15   0   1   2  42   2   1]
+ [  0  21  95  20   0   4  11  17   5  12]
+ [  0   2 215  28   0   3   4  12   0   0]
+ [  0   3  85 100   0   1   1   9   2   2]
+ [  0   0   6  22   0   0   0   4   2   0]
+ [  0   4  33  18   0  62  28  55   3   2]
+ [  1   6  12   2   0  37  70  51   1   3]
+ [  2   6  26  22   0  19  25 152   6   5]
+ [  0   3   1   3   0   1  12  35  69  18]
+ [  0   8  24  15   0   1   0   3  11 125]]
+```
+
+**VGG16 (ImageNet)**
+```
+[[ 29   1  11  11   3   5   7  34   3   4]
+ [  3 155   3   2   1   5   2  11   1   2]
+ [  1   2 242   1   0   3  13   2   0   0]
+ [  4   6   3 185   2   0   3   0   0   0]
+ [  0   0   0   0  33   0   0   0   1   0]
+ [  3   2   0   1   0 183   7   8   0   1]
+ [  2   1   6   1   0   3 152  16   2   0]
+ [  4   6   2   0   1   8  41 198   0   3]
+ [  2   0   0   0   2   1   1   1 134   1]
+ [  1   0   1   2   0   0   1   3   5 174]]
+```
+
+**DenseNet121 (ImageNet)**
+```
+[[ 40   1  13  11   3   7   5  23   3   2]
+ [  7 157   6   5   2   0   2   3   2   1]
+ [  2   1 252   0   0   1   7   1   0   0]
+ [  3   3   3 187   1   0   4   2   0   0]
+ [  0   0   0   1  29   1   1   0   2   0]
+ [  3   3   0   2   0 180   5  11   1   0]
+ [  1   1   9   2   0   1 143  22   4   0]
+ [  8   5   3   1   1   9  36 195   2   3]
+ [  4   0   0   0   2   0   4   0 128   4]
+ [  1   0   1   1   0   2   1   1   8 172]]
+```
+
+**ResNet50 (ImageNet)**
+```
+[[ 39   4  15  11   2   8   4  19   2   4]
+ [  2 159   6   1   1   4   2   6   1   3]
+ [  0   6 241   1   0   2  10   4   0   0]
+ [  3   6   1 189   1   0   3   0   0   0]
+ [  0   0   0   2  26   1   1   1   2   1]
+ [  2   2   1   2   1 177   5  14   1   0]
+ [  3   1   9   3   0   8 133  24   2   0]
+ [ 19  16   3   4   1  21  32 162   3   2]
+ [  3   1   0   0   2   0   0   3 128   5]
+ [  1   0   1   2   2   2   1   0   4 174]]
+```
+
+**ResNet50 (Zoobot)**
+```
+[[ 47   2  12  10   2   4   4  24   0   3]
+ [  4 161   4   0   1   1   2   8   0   4]
+ [  0   0 256   0   0   0   7   1   0   0]
+ [  2   4   0 192   0   1   3   1   0   0]
+ [  0   0   0   1  33   0   0   0   0   0]
+ [  2   2   0   1   0 180   5  12   1   2]
+ [  2   1  10   1   0   1 151  15   2   0]
+ [  7   5   1   0   0   4  35 208   0   3]
+ [  4   0   0   0   1   0   1   2 129   5]
+ [  1   1   1   1   0   1   0   2   2 178]]
+```
+
+**ConvNeXT-Nano (ImageNet)**
+```
+[[ 48   1  11   8   5   4   3  24   2   2]
+ [  2 157   7   2   1   1   4   9   0   2]
+ [  3   3 240   0   0   0  15   3   0   0]
+ [  9   3   2 175   6   0   4   4   0   0]
+ [  0   0   0   0  28   1   0   1   3   1]
+ [  6   4   0   1   0 167  10  15   1   1]
+ [  0   1   2   1   0   1 144  30   4   0]
+ [ 19   5   0   0   1   7  28 199   1   3]
+ [  1   0   0   0   0   0   1   4 131   5]
+ [  0   1   1   0   0   2   0   3   4 176]]
+```
+
+**ConvNeXT-Nano (Zoobot)**
+```
+[[ 54   2  12   9   6   4   0  15   3   3]
+ [  3 174   1   0   1   1   1   1   0   3]
+ [  0   2 250   0   0   0   9   3   0   0]
+ [  0   4   2 191   3   0   1   2   0   0]
+ [  0   0   0   0  30   0   0   0   1   3]
+ [  0   2   0   1   0 191   3   7   1   0]
+ [  2   1   4   1   0   2 146  24   3   0]
+ [  9   6   2   0   0   8  20 213   1   4]
+ [  0   0   0   0   3   0   0   4 130   5]
+ [  0   0   1   1   0   1   0   0   1 183]]
+```
+
+Common pattern worth noting for the report's discussion section: in **all
+seven matrices above**, **Disturbed's largest off-diagonal cell is column 7
+(Unbarred Loose Spiral)**, with no exception — holds regardless of
+architecture, pretraining source, or whether the model was trained from
+scratch. **Unbarred Tight/Loose Spiral consistently confuse with each
+other** too (columns 6/7 both show elevated off-diagonal counts in each
+other's row) in 6 of 7 models; the one near-exception is SimpleCNN, where
+Unbarred Loose Spiral's largest confusion is narrowly with Round Smooth (26
+images) rather than Unbarred Tight Spiral (25 images) — a 1-image margin,
+still clearly elevated, so this reads as the same underlying pattern showing
+through a much noisier from-scratch model rather than a real counter-example.
+Overall this reinforces the Part 1/2 finding that these are dataset-level
+ambiguities rather than model-specific weaknesses.
 
 ---
 
