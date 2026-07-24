@@ -1,8 +1,13 @@
-# 这是 Colab / PyCharm 验证跑结果（仅供参考）不作为最终报告数据，最后需要以统一跑为准
+# 这是 PyCharm 本地验证跑结果（仅供参考）不作为最终报告数据，最后需要以统一跑为准
 # Baseline & Main Models
 
-> Individual validation runs (Kaishi: Colab T4; Yaoyu: local RTX 5080). Final
-> numbers will come from Member C's single consolidated run.
+> All validation runs in this document (SimpleCNN, VGG16, DenseNet121,
+> ResNet50 x2, ConvNeXT-Nano x2) were executed by Yaoyu on the same local
+> machine (RTX 5080), using the shared `train_one` protocol unmodified —
+> hardware and software environment are held constant across every row in
+> this file, so differences between models reflect the model/pretraining
+> choice, not machine-to-machine variation. Final numbers for the report
+> will still come from Member C's single consolidated run.
 
 Environment: shared `train_one` protocol (80/10/10 stratified split,
 `random_state=42`, 15 epochs, AdamW lr=1e-4, best checkpoint by val macro-F1).
@@ -13,8 +18,8 @@ Metrics: shared `src/evaluation/metrics.py`.
 ## Part 1: All models on ImageNet pretraining (primary comparison)
 
 This is the apples-to-apples table — every model here uses standard
-ImageNet-pretrained weights, so the only variable across rows is
-architecture.
+ImageNet-pretrained weights, and every run was executed on the same machine
+under the same protocol, so the only variable across rows is architecture.
 
 | Model                     | Owner  | Params | test_acc | test_macroF1 | Role                              |
 |----------------------------|--------|--------|----------|--------------|-------------------------------------|
@@ -23,6 +28,10 @@ architecture.
 | DenseNet121                | Kaishi | ~8M    | 0.8140   | 0.8048       | main model                          |
 | ResNet50 (ImageNet)        | Yaoyu  | ~23.5M | 0.8050   | 0.7824       | main model                          |
 | ConvNeXT-Nano (ImageNet)   | Yaoyu  | ~15M   | 0.8258   | 0.8073       | main model                          |
+
+*"Owner" = who designed/is responsible for that model choice in the project
+plan, not who executed this particular validation run — see the note at the
+top of this file, all numbers here were run by Yaoyu on one machine.*
 
 **On ImageNet pretraining, VGG16 is actually the strongest single model**
 (0.8405/0.8149), narrowly ahead of DenseNet121 and ConvNeXT-Nano-ImageNet;
