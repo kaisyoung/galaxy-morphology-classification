@@ -13,6 +13,14 @@ Environment: shared `train_one` protocol (80/10/10 stratified split,
 `random_state=42`, 15 epochs, AdamW lr=1e-4, best checkpoint by val macro-F1).
 Metrics: shared `src/evaluation/metrics.py`.
 
+*Verification note: SimpleCNN/VGG16/DenseNet121 numbers were re-run locally
+to confirm the RTX-5080-only claim above. SimpleCNN and VGG16 matched the
+original numbers within ~0.3pp (normal run-to-run noise). DenseNet121 came
+back +2.2pp accuracy / +0.9pp macro-F1 higher than the original — larger
+than expected noise, most likely because the original number came from a
+different environment before this file's numbers were unified onto one
+machine. The table below uses the RTX 5080 rerun for all three.*
+
 ---
 
 ## Part 1: All models on ImageNet pretraining (primary comparison)
@@ -23,9 +31,9 @@ under the same protocol, so the only variable across rows is architecture.
 
 | Model                     | Owner  | Params | test_acc | test_macroF1 | Role                              |
 |----------------------------|--------|--------|----------|--------------|-------------------------------------|
-| SimpleCNN                  | Kaishi | ~0.4M  | 0.4645   | 0.3827       | Lower-bound (from scratch)          |
-| VGG16                      | Kaishi | ~138M  | 0.8405   | 0.8149       | Transfer-learning ref               |
-| DenseNet121                | Kaishi | ~8M    | 0.8140   | 0.8048       | main model                          |
+| SimpleCNN                  | Kaishi | ~0.4M  | 0.4639   | 0.3845       | Lower-bound (from scratch)          |
+| VGG16                      | Kaishi | ~138M  | 0.8371   | 0.8157       | Transfer-learning ref               |
+| DenseNet121                | Kaishi | ~8M    | 0.8360   | 0.8136       | main model                          |
 | ResNet50 (ImageNet)        | Yaoyu  | ~23.5M | 0.8050   | 0.7824       | main model                          |
 | ConvNeXT-Nano (ImageNet)   | Yaoyu  | ~15M   | 0.8258   | 0.8073       | main model                          |
 
@@ -33,27 +41,33 @@ under the same protocol, so the only variable across rows is architecture.
 plan, not who executed this particular validation run — see the note at the
 top of this file, all numbers here were run by Yaoyu on one machine.*
 
-**On ImageNet pretraining, VGG16 is actually the strongest single model**
-(0.8405/0.8149), narrowly ahead of DenseNet121 and ConvNeXT-Nano-ImageNet;
-ResNet50-ImageNet is the weakest of the four pretrained models here. Given
-VGG16 has ~9x the parameters of ConvNeXT-Nano and ~6x DenseNet121, it is not
-the most parameter-efficient choice, but it is the top performer on raw
-accuracy under this shared protocol.
+**On ImageNet pretraining, VGG16 and DenseNet121 are essentially tied for
+strongest** (0.8371/0.8157 vs 0.8360/0.8136 — 0.11pp apart, within run-to-run
+noise), both clearly ahead of ConvNeXT-Nano-ImageNet (0.8258/0.8073, ~1pp
+back) and ResNet50-ImageNet (0.8050/0.7824, ~2pp further back). Given VGG16
+has ~9x the parameters of ConvNeXT-Nano and ~17x DenseNet121, it is not the
+most parameter-efficient choice — DenseNet121 reaches essentially the same
+accuracy at a fraction of the size.
 
 ### Per-class F1 (ImageNet basis)
 
+*SimpleCNN's per-class breakdown below is from the original zip (its
+classification report wasn't reprinted in the RTX 5080 rerun, only the
+summary acc/macroF1 above, which matched closely); VGG16 and DenseNet121
+columns are the actual RTX 5080 rerun numbers.*
+
 | Class                  | SimpleCNN | VGG16 | DenseNet121 | ResNet50 (ImageNet) | ConvNeXT-Nano (ImageNet) |
 |-------------------------|-----------|-------|-------------|------------------------|-----------------------------|
-| Disturbed               | 0.134     | 0.517 | 0.524       | 0.433                  | 0.490                       |
-| Merging                  | 0.169     | 0.881 | 0.863       | 0.837                  | 0.872                       |
-| Round Smooth             | 0.541     | 0.905 | 0.894       | 0.891                  | 0.911                       |
-| In-between Smooth        | 0.451     | 0.907 | 0.907       | 0.904                  | 0.897                       |
-| Cigar-shaped Smooth      | 0.000     | 0.729 | 0.829       | 0.743                  | 0.747                       |
-| Barred Spiral            | 0.366     | 0.881 | 0.830       | 0.827                  | 0.861                       |
-| Unbarred Tight Spiral    | 0.412     | 0.772 | 0.707       | 0.711                  | 0.735                       |
-| Unbarred Loose Spiral    | 0.476     | 0.752 | 0.671       | 0.653                  | 0.717                       |
-| Edge-on w/o Bulge        | 0.568     | 0.892 | 0.901       | 0.898                  | 0.910                       |
-| Edge-on w/ Bulge         | 0.709     | 0.913 | 0.922       | 0.926                  | 0.934                       |
+| Disturbed               | 0.134     | 0.369 | 0.452       | 0.433                  | 0.490                       |
+| Merging                  | 0.169     | 0.866 | 0.882       | 0.837                  | 0.872                       |
+| Round Smooth             | 0.541     | 0.910 | 0.915       | 0.891                  | 0.911                       |
+| In-between Smooth        | 0.451     | 0.911 | 0.906       | 0.904                  | 0.897                       |
+| Cigar-shaped Smooth      | 0.000     | 0.868 | 0.806       | 0.743                  | 0.747                       |
+| Barred Spiral            | 0.366     | 0.886 | 0.887       | 0.827                  | 0.861                       |
+| Unbarred Tight Spiral    | 0.412     | 0.741 | 0.731       | 0.711                  | 0.735                       |
+| Unbarred Loose Spiral    | 0.476     | 0.739 | 0.749       | 0.653                  | 0.717                       |
+| Edge-on w/o Bulge        | 0.568     | 0.931 | 0.877       | 0.898                  | 0.910                       |
+| Edge-on w/ Bulge         | 0.709     | 0.935 | 0.932       | 0.926                  | 0.934                       |
 
 ---
 
