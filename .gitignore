@@ -222,6 +222,8 @@ outputs/checkpoints/*
 !outputs/checkpoints/.gitkeep
 outputs/logs/*
 !outputs/logs/.gitkeep
+outputs/**/checkpoints/
+outputs/**/*.pt
 # macOS
 .DS_Store
 

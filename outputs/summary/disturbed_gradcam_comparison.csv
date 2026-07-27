@@ -1,0 +1,4 @@
+Group,Model,Sample Index,True Class,Predicted Class,Prediction Confidence,Grad-CAM Target,Correct,Output Path
+Correct Disturbed,resnet50_zoobot,280,Disturbed,Disturbed,0.9973964691162109,Disturbed,True,C:\Users\Olivia\Desktop\COMP9444\Project\COMP9444-Galaxy-Morphology-Classification\outputs\figures\gradcam\resnet50_zoobot_sample_280.png
+Disturbed → Loose Spiral,resnet50_zoobot,919,Disturbed,Unbarred Loose Spiral,0.8146923780441284,Unbarred Loose Spiral,False,C:\Users\Olivia\Desktop\COMP9444\Project\COMP9444-Galaxy-Morphology-Classification\outputs\figures\gradcam\resnet50_zoobot_sample_919.png
+Correct Loose Spiral,resnet50_zoobot,365,Unbarred Loose Spiral,Unbarred Loose Spiral,0.6929373741149902,Unbarred Loose Spiral,True,C:\Users\Olivia\Desktop\COMP9444\Project\COMP9444-Galaxy-Morphology-Classification\outputs\figures\gradcam\resnet50_zoobot_sample_365.png
