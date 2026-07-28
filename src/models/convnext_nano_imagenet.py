@@ -16,9 +16,18 @@ def build_convnext_nano_imagenet(num_classes: int = NUM_CLASSES) -> nn.Module:
 
 
 def main():
-    metrics = train_one("convnext_nano_imagenet", model=build_convnext_nano_imagenet())
-    print(f"\nConvNeXT-Nano (ImageNet-pretrained, Yaoyu) final test: "
-          f"acc={metrics['accuracy']:.4f}  macroF1={metrics['macro_f1']:.4f}")
+    result = train_one(
+        "convnext_nano_imagenet",
+        model=build_convnext_nano_imagenet(),
+    )
+
+    metrics = result["test_metrics"]
+
+    print(
+        "\nConvNeXT-Nano ImageNet final test: "
+        f"acc={metrics['accuracy']:.4f} "
+        f"macro_f1={metrics['macro_f1']:.4f}"
+    )
 
 
 if __name__ == "__main__":

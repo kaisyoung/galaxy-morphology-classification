@@ -16,9 +16,18 @@ def build_resnet50(num_classes: int = NUM_CLASSES) -> nn.Module:
 
 
 def main():
-    metrics = train_one("resnet50", model=build_resnet50())
-    print(f"\nResNet50 (Zoobot-pretrained, Yaoyu) final test: "
-          f"acc={metrics['accuracy']:.4f}  macroF1={metrics['macro_f1']:.4f}")
+    result = train_one(
+        "resnet50_zoobot",
+        model=build_resnet50(),
+    )
+
+    metrics = result["test_metrics"]
+
+    print(
+        "\nResNet50 Zoobot final test: "
+        f"acc={metrics['accuracy']:.4f} "
+        f"macro_f1={metrics['macro_f1']:.4f}"
+    )
 
 
 if __name__ == "__main__":
