@@ -1,5 +1,5 @@
 #Baseline: SimpleCNN (from scratch) + VGG16 (transfer).
-
+#Other models: DenseNet121 + ResNet50 + ConvNeXT-Nano
 from __future__ import annotations
 
 import json
@@ -197,6 +197,7 @@ def train_one(
             f"val_macro_f1={validation_metrics['macro_f1']:.4f}"
         )
 
+        #generate a checkpoint
         if validation_metrics["macro_f1"] > best_macro_f1:
             best_macro_f1 = validation_metrics["macro_f1"]
             best_epoch = epoch
@@ -269,6 +270,7 @@ def train_one(
         "history": history,
     }
 
+    #generate JSON files
     result_path = RESULT_DIR / f"{model_name}.json"
 
     with result_path.open(
@@ -281,6 +283,7 @@ def train_one(
             indent=2,
         )
 
+    #generate NPZ files
     prediction_path = (
         RESULT_DIR / f"{model_name}_predictions.npz"
     )
