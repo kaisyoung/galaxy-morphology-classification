@@ -2,6 +2,7 @@ astroNN
 jupyter
 matplotlib
 numpy
+pandas
 scikit-learn
 timm
 torch

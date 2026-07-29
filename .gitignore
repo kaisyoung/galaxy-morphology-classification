@@ -222,6 +222,10 @@ outputs/checkpoints/*
 !outputs/checkpoints/.gitkeep
 outputs/logs/*
 !outputs/logs/.gitkeep
+outputs/**/checkpoints/
+outputs/**/*.pt
+outputs/results/*.json
+outputs/results/*_predictions.npz
 # macOS
 .DS_Store
 

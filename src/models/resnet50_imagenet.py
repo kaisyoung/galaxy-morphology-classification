@@ -17,10 +17,18 @@ def build_resnet50_imagenet(num_classes: int = NUM_CLASSES) -> nn.Module:
 
 
 def main():
-    metrics = train_one("resnet50_imagenet", model=build_resnet50_imagenet())
-    print(f"\nResNet50 (ImageNet-pretrained, Yaoyu) final test: "
-          f"acc={metrics['accuracy']:.4f}  macroF1={metrics['macro_f1']:.4f}")
+    result = train_one(
+        "resnet50_imagenet",
+        model=build_resnet50_imagenet(),
+    )
 
+    metrics = result["test_metrics"]
+
+    print(
+        "\nResNet50 ImageNet final test: "
+        f"acc={metrics['accuracy']:.4f} "
+        f"macro_f1={metrics['macro_f1']:.4f}"
+    )
 
 if __name__ == "__main__":
     main()

@@ -15,9 +15,18 @@ def build_convnext_nano(num_classes: int = NUM_CLASSES) -> nn.Module:
 
 
 def main():
-    metrics = train_one("convnext_nano", model=build_convnext_nano())
-    print(f"\nConvNeXT-Nano (Zoobot-pretrained, Yaoyu) final test: "
-          f"acc={metrics['accuracy']:.4f}  macroF1={metrics['macro_f1']:.4f}")
+    result = train_one(
+        "convnext_nano_zoobot",
+        model=build_convnext_nano(),
+    )
+
+    metrics = result["test_metrics"]
+
+    print(
+        "\nConvNeXT-Nano Zoobot final test: "
+        f"acc={metrics['accuracy']:.4f} "
+        f"macro_f1={metrics['macro_f1']:.4f}"
+    )
 
 
 if __name__ == "__main__":

@@ -1,0 +1,19 @@
+Group,Sample Index,True Class,Predicted Class,Prediction Confidence
+Correct Disturbed,280,Disturbed,Disturbed,0.9973846077919006
+Correct Disturbed,777,Disturbed,Disturbed,0.9924886226654053
+Correct Disturbed,779,Disturbed,Disturbed,0.9491164088249207
+Correct Disturbed,1061,Disturbed,Disturbed,0.9999476671218872
+Correct Disturbed,1304,Disturbed,Disturbed,0.47535398602485657
+Correct Disturbed,1510,Disturbed,Disturbed,0.4405146539211273
+Disturbed → Loose Spiral,919,Disturbed,Unbarred Loose Spiral,0.814599871635437
+Disturbed → Loose Spiral,956,Disturbed,Unbarred Loose Spiral,0.9804186224937439
+Disturbed → Loose Spiral,1057,Disturbed,Unbarred Loose Spiral,0.8964563012123108
+Disturbed → Loose Spiral,1102,Disturbed,Unbarred Loose Spiral,0.9655218124389648
+Disturbed → Loose Spiral,1550,Disturbed,Unbarred Loose Spiral,0.9672858119010925
+Disturbed → Loose Spiral,1612,Disturbed,Unbarred Loose Spiral,0.6461046934127808
+Correct Loose Spiral,365,Unbarred Loose Spiral,Unbarred Loose Spiral,0.6921904683113098
+Correct Loose Spiral,792,Unbarred Loose Spiral,Unbarred Loose Spiral,0.9974499344825745
+Correct Loose Spiral,1146,Unbarred Loose Spiral,Unbarred Loose Spiral,0.9106308817863464
+Correct Loose Spiral,1411,Unbarred Loose Spiral,Unbarred Loose Spiral,0.9093530178070068
+Correct Loose Spiral,1479,Unbarred Loose Spiral,Unbarred Loose Spiral,0.894352912902832
+Correct Loose Spiral,1639,Unbarred Loose Spiral,Unbarred Loose Spiral,0.9928801655769348
